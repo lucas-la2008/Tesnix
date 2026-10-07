@@ -17,7 +17,7 @@ DOBJS += $(patsubst src/%.s, build/debugBin/%.o, $(SRCS_S))
 # Checks if the folders exists to create them if not exists and don't create if it exists
 $(shell mkdir -p build/bin build/debug/boot/grub build/debugBin build/iso/boot/grub build/isos build/obj)
 
-.PHONY: debug clean all build emulate iso
+.PHONY: debug clean all build iso
 
 all: build iso
 
