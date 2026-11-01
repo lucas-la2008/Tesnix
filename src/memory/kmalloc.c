@@ -1,7 +1,7 @@
-#include "memory/malloc.h"
-#include <stddef.h>
-#include <stdint.h>
-#include <stdbool.h>
+#include "memory/kmalloc.h"
+#include <lib/kstddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstdbool.h>
 
 uintptr_t heap_start;
 uintptr_t heap_end;
@@ -30,7 +30,7 @@ void* kmalloc(size_t size)
     bool found = false;
     while((uintptr_t)ptr < heap_end)
     {
-        if (((uintptr_t)ptr+sizeof(header) < heap_end) && ptr->size >=size)
+        if (((uintptr_t)ptr+sizeof(header) < heap_end) && ptr->size >=size && ptr->free)
         {
             found = true;
             break;
@@ -49,6 +49,10 @@ void* kmalloc(size_t size)
     
     ptr->size = size;
     ptr->free = false;
-    ptr->next = (struct header*)new;
+    ptr->next = new;
     return (void *)((uintptr_t)ptr + sizeof(header));
+}
+
+void kfree(void* ptr){
+    header* headerptr = (void*)((uintptr_t)ptr - sizeof(header));
 }
