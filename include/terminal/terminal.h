@@ -1,9 +1,9 @@
-#ifndef VGA_TERMINAL
-#define VGA_TERMINAL
+#ifndef __VGA_TERMINAL_H__
+#define __VGA_TERMINAL_H__
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdbool.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 
 void terminal_initialize(void);
 void terminal_setcolor(uint8_t color);

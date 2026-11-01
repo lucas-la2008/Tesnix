@@ -1,8 +1,8 @@
-#ifndef __HANDLER_FUNCTIONS__
-#define __HANDLER_FUNCTIONS__
+#ifndef __HANDLER_FUNCTIONS_H__
+#define __HANDLER_FUNCTIONS_H__
 
 #include "interrupts/common_handler.h"
-#include <stdint.h>
+#include <lib/kstdint.h>
 
 //ISR 0
 void divide_by_zero(registers_t *r);

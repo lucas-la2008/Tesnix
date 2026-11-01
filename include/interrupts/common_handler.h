@@ -1,8 +1,8 @@
-#ifndef EXCEPTION_HANDLERS
-#define EXCEPTION_HANDLERS
+#ifndef __EXCEPTION_HANDLERS_H__
+#define __EXCEPTION_HANDLERS_H__
 
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 typedef struct registers{
     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
     uint32_t int_no;

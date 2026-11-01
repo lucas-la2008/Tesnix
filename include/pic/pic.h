@@ -1,6 +1,7 @@
-#ifndef __8259_PIC__
-#define __8259_PIC__
-#include <stdint.h>
+#ifndef __8259_PIC_H__
+#define __8259_PIC_H__
+
+#include <lib/kstdint.h>
 
 void PIC_sendEOI(uint32_t irq);
 void PIC_remap(uint32_t offset1, uint32_t offset2);

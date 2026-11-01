@@ -1,7 +1,7 @@
-#ifndef IO_H
-#define IO_H
+#ifndef __IO_H__
+#define __IO_H__
 
-#include <stdint.h>
+#include <lib/kstdint.h>
 
 static inline uint8_t inb(uint16_t port)
 {

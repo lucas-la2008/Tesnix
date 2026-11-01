@@ -1,8 +1,8 @@
-#ifndef __IDT__
-#define __IDT__
+#ifndef __IDT_H__
+#define __IDT_H__
 
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 
 void idt_init(void);
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);

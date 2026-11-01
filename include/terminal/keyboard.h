@@ -1,7 +1,7 @@
-#ifndef __KEYBOARD__
-#define __KEYBOARD__
+#ifndef __KEYBOARD_H__
+#define __KEYBOARD_H__
 
-#include <stdint.h>
+#include <lib/kstdint.h>
 
 void keyboard_scancode(uint8_t key, char* out);
 char keyboard_char(uint8_t scancode);

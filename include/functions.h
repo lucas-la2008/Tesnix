@@ -1,9 +1,9 @@
-#ifndef __FUNCTIONS__
-#define __FUNCTIONS__
+#ifndef __FUNCTIONS_H__
+#define __FUNCTIONS_H__
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstdbool.h>
+#include <lib/kstddef.h>
 
 size_t kstrlen(const char *str);
 size_t kstrcmp(const char* str1, const char* str2);

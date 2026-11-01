@@ -1,8 +1,8 @@
-#ifndef HANDLES_TABLE
-#define HANDLES_TABLE
+#ifndef __HANDLERS_TABLE_H__
+#define __HANDLERS_TABLE_H__
 
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 #include "interrupts/common_handler.h"
 
 extern void (*handlers[256])(registers_t*);
