@@ -1,6 +1,6 @@
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstdbool.h>
+#include <lib/kstddef.h>
 #include "functions.h"
 
 size_t kstrlen(const char *str)

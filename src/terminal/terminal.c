@@ -1,6 +1,6 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdbool.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 #include "terminal/terminal.h"
 #include "functions.h"
 #include "io.h"
@@ -70,9 +70,7 @@ static inline void prompt()
     terminal_setcolor(temp);
 }
 
-// it's two loops to acess all the adresses in the buffer
-// and clean them, it acess like a matrix using rows and columns
-// but translates it to 1D and saves in the index variable
+// Clean all the buffer positions with an invisible character
 void terminal_initialize(void)
 {
     terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);

@@ -1,5 +1,5 @@
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 #include "descriptors/idt.h"
 
 typedef struct idt_ptr {
@@ -33,6 +33,7 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags){
 extern void* isr_stub_table[];
 extern void* irq_stub_table[];
 
+// Initializes the idt(Interrupt Descriptor Table)
 void idt_init() {
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)(sizeof(idt) - 1);

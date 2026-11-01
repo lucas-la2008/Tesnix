@@ -1,5 +1,5 @@
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 #include "descriptors/gdt.h"
 
 typedef struct gdt_entry

@@ -33,6 +33,7 @@ void PIC_sendEOI(uint32_t irq)
 	outb(PIC1_COMMAND,PIC_EOI);
 }
 
+// Remaps the pic chip to use a different offset from the original
 void PIC_remap(uint32_t offset1, uint32_t offset2)
 {
 	outb(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);  // starts the initialization sequence (in cascade mode)

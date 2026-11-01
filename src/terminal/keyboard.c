@@ -1,5 +1,5 @@
-#include <stdint.h>
-#include <stdbool.h>
+#include <lib/kstdint.h>
+#include <lib/kstdbool.h>
 #include "io.h"
 #include "terminal/keymap.h"
 

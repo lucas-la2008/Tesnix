@@ -1,5 +1,5 @@
-#include <stdint.h>
-#include <stddef.h>
+#include <lib/kstdint.h>
+#include <lib/kstddef.h>
 #include "interrupts/handler_functions.h"
 #include "interrupts/common_handler.h"
 #include "terminal/terminal.h"
