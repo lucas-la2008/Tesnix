@@ -1,8 +1,10 @@
 PLACE?="build/isos/kernel.iso"
 CC=i686-elf-gcc
 AS = i686-elf-as
-CFLAGS= -ffreestanding -Iinclude -O2 -Wall -Wextra -fno-stack-protector -fno-builtin -fno-pic -fno-pie
+CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -fno-pic -fno-pie
 LDFLAGS= -ffreestanding -nostdlib -lgcc
+
+MODE?=debug
 
 QEMUFLAGS?=
 # Saves all the files ending with .c to
@@ -22,56 +24,42 @@ $(shell mkdir -p build/bin build/debug/boot/grub build/debugBin build/iso/boot/g
 all: build iso
 
 iso: build/bin/kernel.elf
-	@cp build/bin/kernel.elf build/iso/boot/kernel.elf
-	@echo "Creating the iso at $(PLACE)"
-	@grub-mkrescue build/iso -o $(PLACE) > /dev/null 2>&1
-	@echo "Done"
+	mkdir -p $(dir $@)
+	cp build/bin/kernel.elf build/iso/boot/kernel.elf
+	grub-mkrescue build/iso -o $(PLACE)
 
 #Build section
 build: $(OBJS)
-	@echo "Linking the object files"
-	@$(CC) $(LDFLAGS) -T kernel.ld $(OBJS) -o build/bin/kernel.elf
-	@echo "Done"
+	$(CC) $(LDFLAGS) -T kernel.ld $(OBJS) -o build/bin/kernel.elf
 
 # Tells make how to create the C and Assembly 
 # object files and where to place them
 build/obj/%.o: src/%.c
-	@mkdir -p $(dir $@)
-	@echo "Compiling the C files"
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "Done"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 build/obj/%.o: src/%.s
-	@mkdir -p $(dir $@)
-	@echo "Compiling the Assembly files"
-	@$(AS) $< -o $@
-	@echo "Done"
+	mkdir -p $(dir $@)
+	$(AS) $< -o $@
 
 #End build section
 
 #Debug section
 debug: $(DOBJS)
-	@echo "Linking the debug object files"
-	@$(CC) $(LDFLAGS) -T kernel.ld $(DOBJS) -o build/debug/boot/Dkernel.elf
-	@echo "Creating the iso at isos/"
-	@grub-mkrescue build/debug/ -o build/isos/debug.iso > /dev/null 2>&1
-	@echo "Iso created"
+	$(CC) $(LDFLAGS) -T kernel.ld $(DOBJS) -o build/debug/boot/Dkernel.elf
+	grub-mkrescue build/debug/ -o build/isos/debug.iso
 
 build/debugBin/%.o: src/%.c
-	@mkdir -p $(dir $@)
-	@echo "Compiling the C files"
-	@$(CC) $(CFLAGS) -g -O0 -c $< -o $@
-	@echo "Done"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -g -O0 -c $< -o $@
 
 build/debugBin/%.o: src/%.s
-	@mkdir -p $(dir $@)
-	@echo "Compiling the Assembly files"
-	@$(AS) $< -o $@
-	@echo "Done"
+	mkdir -p $(dir $@)
+	$(AS) $< -o $@
 #End debug
 
 run:
-	@qemu-system-i386 -cdrom $(PLACE) $(QEMUFLAGS)
+	qemu-system-i386 -cdrom $(PLACE) $(QEMUFLAGS)
 
 clean:
-	@rm -rf build/bin/* build/debug/boot/Dkernel.elf build/debugBin/* build/iso/boot/kernel.elf build/isos/* build/obj/*
+	rm -rf build/bin/* build/debug/boot/Dkernel.elf build/debugBin/* build/iso/boot/kernel.elf build/isos/* build/obj/*
