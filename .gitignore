@@ -1,7 +1,6 @@
 # folders
 .*/
 build/bin
-build/debugBin
 build/isos
 build/obj
 
