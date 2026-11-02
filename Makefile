@@ -3,6 +3,7 @@ CC=i686-elf-gcc
 AS = i686-elf-as
 CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -fno-pic -fno-pie
 LDFLAGS= -ffreestanding -nostdlib -lgcc -T kernel.ld
+LD_SCRIPT = kernel.ld
 
 MODE ?= debug
 
@@ -34,7 +35,7 @@ OBJS += $(patsubst src/%.s, $(OBJ_DIR)/%.o, $(SRCS_S))
 all: $(TARGET) iso
 
 #Build section
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(LD_SCRIPT)
 	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
 # Make's rule to create the C and Assembly 
