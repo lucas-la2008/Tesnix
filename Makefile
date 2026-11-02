@@ -1,4 +1,4 @@
-PLACE ?= build/isos/kernel.iso
+PLACE ?= build/isos/Dkernel.iso
 CC=i686-elf-gcc
 AS = i686-elf-as
 CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -fno-pic -fno-pie
@@ -16,12 +16,13 @@ ifeq ($(MODE), release)
     CFLAGS+= -O2
     TARGET = build/bin/kernel.elf
     OBJ_DIR = build/obj/release
-    ISO_DIR = release/boot
+    ISO_DIR = build/release
     KERNEL_ISO = kernel.iso
+    PLACE = build/isos/kernel.iso
 else
     CFLAGS += -g -O0
     OBJ_DIR = build/obj/debug
-    ISO_DIR = debug/boot
+    ISO_DIR = build/debug
     KERNEL_ISO = Dkernel.iso
 endif
 
@@ -49,10 +50,11 @@ $(OBJ_DIR)%.o: src/%.s
 #End build section
 
 iso: $(TARGET)
+	mkdir -p $(ISO_DIR)/boot
 	cp $< $(ISO_DIR)/boot
 	grub-mkrescue $(ISO_DIR) -o build/isos/$(KERNEL_ISO)
 
-run: all
+run:
 	qemu-system-i386 -cdrom $(PLACE)
 
 clean:
