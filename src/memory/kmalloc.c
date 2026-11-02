@@ -19,6 +19,7 @@ void heap_init(void)
     ptr->free = true;
     ptr->next = NULL;
     ptr->size = HEAP_SIZE - sizeof(header);
+    ptr->magic = MAGIC;
 }
 
 void* kmalloc(size_t size)
@@ -48,10 +49,12 @@ void* kmalloc(size_t size)
     new->free = true;
     new->size = heap_end-((uintptr_t)new + sizeof(header));
     new->next = NULL;
+    new->magic = MAGIC;
     
     ptr->size = size;
     ptr->free = false;
     ptr->next = new;
+    ptr->magic = MAGIC;
     return (void *)((uintptr_t)ptr + sizeof(header));
 }
 
@@ -61,6 +64,7 @@ void kfree(void* ptr){
     }
     header* headerptr = (header*)((uintptr_t)ptr - sizeof(header));
     if (headerptr->magic != MAGIC){
+        return;
     }
     if (headerptr->free){
         return;
@@ -69,10 +73,10 @@ void kfree(void* ptr){
     header* new  = (header*)((uintptr_t)headerptr + sizeof(header) + headerptr->size);
     while (new->free && (uintptr_t)new+sizeof(header) < heap_end){
         if (new->magic != MAGIC){
-            
+            break;
         }
         headerptr->size += new->size + sizeof(header);
         headerptr->next = new->next;
-        new  = (header*)((uintptr_t)headerptr + sizeof(header) + headerptr->size);
+        new = (header*)((uintptr_t)headerptr + sizeof(header) + headerptr->size);
     }
 }
