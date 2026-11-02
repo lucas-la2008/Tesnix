@@ -3,6 +3,7 @@
 
 #include <lib/kstddef.h>
 #include <lib/kstdbool.h>
+#include <lib/kstdint.h>
 
 typedef struct header header;
 
@@ -10,6 +11,7 @@ struct header
 {
     size_t size;
     header* next;
+    int64_t magic;
     bool free;
 };
 
