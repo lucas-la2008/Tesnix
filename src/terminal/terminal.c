@@ -5,6 +5,7 @@
 #include "functions.h"
 #include "io.h"
 #include "interrupts/handler_functions.h"
+#include "memory/kmalloc.h"
 
 // list all the possible colors in vga mode
 enum vga_color
@@ -172,10 +173,16 @@ void echo()
 // Test function, can change entirely between commits
 void test(void)
 {
-    asm volatile("mov $0, %eax");
-    asm volatile("xor %edx, %edx");
-    asm volatile("mov $0, %ecx");
-    asm volatile("div %ecx");
+    int* ptr = kmalloc(8);
+    for (int i = 0; i< 8; i++){
+        ptr[i] = i;
+    }
+    char str[10];
+    for (int i = 0; i< 8; i++){
+        toStr(ptr[i], &str[i]);
+    }
+    vga_writestring(str);
+    kfree(ptr);
 }
 
 void print_timer(void)
