@@ -164,11 +164,12 @@ void echo()
     clean_command();
     prompt(); // print the command indicator (tesnix> )
 
-    // update the cursor to the actual position of the
+    // update the cursor to the actual position in the terminal
     update_cursor(terminal_row, terminal_column);
     return;
 }
 
+// Test function, can change entirely between commits
 void test(void)
 {
     asm volatile("mov $0, %eax");
