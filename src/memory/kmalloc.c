@@ -11,6 +11,7 @@ int64_t MAGIC;
 
 void heap_init(void)
 {
+    // Align the heap memory start to an 8-byte boundary
     heap_start = ((uintptr_t)&kernel_end + 7) & ~7;
     heap_end = heap_start + HEAP_SIZE;
     MAGIC = hash(heap_start+heap_end);
@@ -71,7 +72,13 @@ void kfree(void* ptr){
     }
     headerptr->free = true;
     header* new  = (header*)((uintptr_t)headerptr + sizeof(header) + headerptr->size);
+
+    // Search for the next free block and merges it
     while (new->free && (uintptr_t)new+sizeof(header) < heap_end){
+
+        // Checks if is a valid block, if its valid, contains an copy
+        // of MAGIC and exit the if block, if not break the loop, 
+        // returning the function
         if (new->magic != MAGIC){
             break;
         }
