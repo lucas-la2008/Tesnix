@@ -21,7 +21,7 @@
 
 #define PIC_EOI		0x20		/* End-of-interrupt command code */
 
-#include <stdint.h>
+#include <lib/kstdint.h>
 #include "io.h"
 #include "pic/pic.h"
 
