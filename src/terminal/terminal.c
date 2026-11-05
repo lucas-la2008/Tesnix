@@ -5,7 +5,7 @@
 #include "functions.h"
 #include "io.h"
 #include "interrupts/handler_functions.h"
-#include "memory/kmalloc.h"
+#include "memalloc/kmalloc.h"
 
 // list all the possible colors in vga mode
 enum vga_color

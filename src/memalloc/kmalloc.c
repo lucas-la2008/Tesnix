@@ -2,7 +2,7 @@
 #include <lib/kstdint.h>
 #include <lib/kstdbool.h>
 #include "hash/hash.h"
-#include "memory/kmalloc.h"
+#include "memalloc/kmalloc.h"
 
 uintptr_t heap_start;
 uintptr_t heap_end;

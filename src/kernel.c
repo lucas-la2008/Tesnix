@@ -2,7 +2,7 @@
 #include "descriptors/gdt.h"
 #include "descriptors/idt.h"
 #include "pic/pic.h"
-#include "memory/kmalloc.h"
+#include "memalloc/kmalloc.h"
 
 void kernel_main(void)
 {
