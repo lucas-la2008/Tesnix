@@ -1,7 +1,7 @@
 PLACE ?= build/isos/Dkernel.iso
 CC=i686-elf-gcc
 AS = i686-elf-as
-CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -nostdinc -fno-pic -fno-pie
+CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -nostdinc -fno-pic -fno-pie -fno-common
 LDFLAGS= -ffreestanding -nostdlib -lgcc -T kernel.ld
 LD_SCRIPT = kernel.ld
 
