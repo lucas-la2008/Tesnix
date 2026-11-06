@@ -7,6 +7,8 @@ void set_paging(){
     }
 
     for (size_t i = 0; i < 1024; i++){
-        page_table[i] = (i);
+        first_page_table[i] = (i*0x1000) | 3;
     }
+
+    page_directory[0] = ((size_t)first_page_table) | 3;
 }
