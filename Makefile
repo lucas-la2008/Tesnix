@@ -1,7 +1,7 @@
 PLACE ?= build/isos/Dkernel.iso
 CC=i686-elf-gcc
 AS = i686-elf-as
-CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -fno-pic -fno-pie
+CFLAGS= -ffreestanding -Iinclude -Wall -Wextra -fno-stack-protector -fno-builtin -nostdinc -fno-pic -fno-pie
 LDFLAGS= -ffreestanding -nostdlib -lgcc -T kernel.ld
 LD_SCRIPT = kernel.ld
 
@@ -16,19 +16,19 @@ SRCS_S := $(shell find src -type f -name "*.s")
 ifeq ($(MODE), release)
     CFLAGS+= -O2
     TARGET = build/bin/kernel.elf
-    OBJ_DIR = build/obj/release
+    OBJ_DIR = build/obj/release/
     ISO_DIR = build/release
     KERNEL_ISO = kernel.iso
     PLACE = build/isos/kernel.iso
 else
     CFLAGS += -g -O0
-    OBJ_DIR = build/obj/debug
+    OBJ_DIR = build/obj/debug/
     ISO_DIR = build/debug
     KERNEL_ISO = Dkernel.iso
 endif
 
-OBJS := $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRCS_C))
-OBJS += $(patsubst src/%.s, $(OBJ_DIR)/%.o, $(SRCS_S))
+OBJS := $(patsubst src/%.c, $(OBJ_DIR)%.o, $(SRCS_C))
+OBJS += $(patsubst src/%.s, $(OBJ_DIR)%.o, $(SRCS_S))
 
 .PHONY: clean all iso
 
