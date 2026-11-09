@@ -1,7 +1,9 @@
-#include "terminal/terminal.h"
 #include "descriptors/gdt.h"
 #include "descriptors/idt.h"
+#include "multiboot/multiboot.h"
 #include "pic/pic.h"
+
+#include "terminal/terminal.h"
 #include "memalloc/kmalloc.h"
 
 void kernel_main(multiboot_info_t* multiboot_info)
