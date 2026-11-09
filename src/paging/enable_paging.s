@@ -1,11 +1,14 @@
 .text
-.global loadPageDirectory
+.global load_page_directory
+.global enable_paging
 
-loadPageDirectory:
-    push %ebp
-    mov %esp, %ebp
-    mov 8(%esp), %eax
-    mov %eax, %cr3
-    mov %ebp, %esp
-    pop %ebp
+load_page_directory:
+    movl 4(%esp), %eax
+    movl %eax, %cr3
+    ret 
+
+enable_paging:
+    movl %cr0, %eax
+    orl $0x80000000, %eax
+    movl %eax, %cr0
     ret
