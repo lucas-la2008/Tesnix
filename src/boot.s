@@ -21,9 +21,18 @@ stack_top:
 .type _start, @function
 _start:
     mov $stack_top, %esp
+    cmpl $0x2BADB002, %eax
+    jne boot_error
+    pushl %ebx
     call kernel_main
     cli
-1:  hlt
-jmp 1b
+
+hang: hlt
+    jmp hang
+
+boot_error:
+    cli
+    hlt
+    jmp boot_error
 
 .size _start, . - _start
