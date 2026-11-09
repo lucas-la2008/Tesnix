@@ -5,6 +5,8 @@
 #include <lib/kstdbool.h>
 #include <lib/kstdint.h>
 
+#define HEAP_SIZE (16*1024*1024)
+
 typedef struct header header;
 
 struct header

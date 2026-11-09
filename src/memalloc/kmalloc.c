@@ -7,7 +7,6 @@
 uintptr_t heap_start;
 uintptr_t heap_end;
 int64_t MAGIC;
-#define HEAP_SIZE (16*1024*1024)
 
 void heap_init(void)
 {
