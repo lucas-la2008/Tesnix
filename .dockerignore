@@ -1,8 +1,4 @@
-build/bin
-build/debugBin
-build/iso
-build/isos
-build/obj
+build/
 .vscode/
 
 
