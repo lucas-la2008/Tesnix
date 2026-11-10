@@ -56,7 +56,7 @@ iso: $(TARGET)
 	grub-mkrescue $(ISO_DIR) -o build/isos/$(KERNEL_ISO)
 
 run:
-	qemu-system-i386 -cdrom $(PLACE)
+	qemu-system-i386 -cdrom $(PLACE) -m 512
 
 clean:
 	rm -rf build/bin/* build/debug/boot/Dkernel.elf build/release/boot/kernel.elf build/isos/* build/obj/*
