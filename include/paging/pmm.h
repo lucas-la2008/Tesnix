@@ -10,7 +10,7 @@ typedef struct{
     size_t bitmap_length;
 } bitmapPages;
 
-uintptr_t init_pmm(multiboot_info_t* info);
+void init_pmm(multiboot_info_t* info);
 uintptr_t alloc_phys_addrs();
 
 #endif

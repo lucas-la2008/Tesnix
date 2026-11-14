@@ -10,7 +10,7 @@ extern char kernel_start;
 
 bitmapPages bitmap = {NULL,0};
 
-uintptr_t init_pmm(multiboot_info_t* info){
+void init_pmm(multiboot_info_t* info){
 
     bitmap.bitmap_ptr = (uint8_t*)heap_end;
     
@@ -71,7 +71,6 @@ uintptr_t init_pmm(multiboot_info_t* info){
         size_t bit_pos = page_index & 7;
         bitmap.bitmap_ptr[byte_index] |= 1<<bit_pos;
     }
-    return (uintptr_t)bitmap.bitmap_ptr;
 }
 
 uintptr_t alloc_phys_addrs(){
