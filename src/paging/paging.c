@@ -1,5 +1,6 @@
 #include "paging/paging.h"
 #include "multiboot/multiboot.h"
+#include "paging/pmm.h"
 #include <lib/kstddef.h>
 #include <lib/kstdint.h>
 
@@ -15,6 +16,8 @@ _Alignas(4096) uint32_t third_page_table[1024];
 _Alignas(4096) uint32_t fourth_page_table[1024];
 
 void set_paging(multiboot_info_t* header){
+
+    init_pmm(header);
     
     for (int i = 0; i < 1024; i++){
         page_directory[i] = 0x00000000;
