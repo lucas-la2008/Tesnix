@@ -1,13 +1,11 @@
 # Tesnix todo list
----
 
-## **• Kernel Initialization**
+## **• Kernel Inicialization**
 - [x] Stack config
 - [x] Multiboot magic number verification
 - [x] Call main
----
-## **• Memory**
 
+## **• Memory**
 ### Heap
   - Initialization
     - [x] Define the heap area and set all as free
