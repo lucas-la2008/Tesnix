@@ -24,10 +24,10 @@ void set_paging(multiboot_info_t* header){
     }
 
     for (size_t i = 0; i < 1024; i++){
-        first_page_table[i]  = (i * 0x1000) | 3; // Cobre de 0 a 4 MB
-        second_page_table[i] = ((i + 1024) * 0x1000) | 3; // Cobre de 4 a 8 MB
-        third_page_table[i]  = ((i + 2048) * 0x1000) | 3; // Cobre de 8 a 12 MB
-        fourth_page_table[i] = ((i + 3072) * 0x1000) | 3; // Cobre de 12 a 16 MB
+        first_page_table[i]  = (i * 0x1000) | 3; // Cover from 0 to 4 MiB
+        second_page_table[i] = ((i + 1024) * 0x1000) | 3; // Cover from 4 to 8 MiB
+        third_page_table[i]  = ((i + 2048) * 0x1000) | 3; // Cover from 8 to 12 MiB
+        fourth_page_table[i] = ((i + 3072) * 0x1000) | 3; // Cover from 12 to 16 MiB
     }
 
     page_directory[0] = ((uintptr_t)first_page_table) | 3;
