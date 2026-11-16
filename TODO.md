@@ -1,8 +1,7 @@
 # Tesnix todo list
-
 ---
 
-## **• Kernel Inicialization**
+## **• Kernel Initialization**
 - [x] Stack config
 - [x] Multiboot magic number verification
 - [x] Call main
