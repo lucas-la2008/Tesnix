@@ -7,6 +7,7 @@
 - [x] Call main
 ---
 ## **• Memory**
+
 ### Heap
   - Initialization
     - [x] Define the heap area and set all as free
