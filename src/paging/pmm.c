@@ -12,7 +12,7 @@ bitmapPages bitmap = {NULL,0};
 
 void init_pmm(multiboot_info_t* info){
 
-    bitmap.bitmap_ptr = (uint8_t*)heap_end;
+    bitmap.ptr = (uint8_t*)heap_end;
     
     uintptr_t final_pos = info->mmap_addr + info->mmap_length;
 
@@ -28,10 +28,10 @@ void init_pmm(multiboot_info_t* info){
         }
     }
 
-    bitmap.bitmap_length = (total_ram + 32767) >> 15;
+    bitmap.length = (total_ram + 32767) >> 15;
 
-    for (size_t i= 0; i < bitmap.bitmap_length; i++){
-        bitmap.bitmap_ptr[i] = 0xFF;
+    for (size_t i= 0; i < bitmap.length; i++){
+        bitmap.ptr[i] = 0xFF;
     }
 
     entry = NULL;
@@ -57,11 +57,11 @@ void init_pmm(multiboot_info_t* info){
             size_t page_index = actual_page >> 12; // Same as dividing by 4096
             size_t byte_index = page_index >> 3; // Same as dividing by 8
             size_t bit_pos = page_index & 7; // Get the bit index by removing everything beyond bit 2
-            bitmap.bitmap_ptr[byte_index] |= ~(1 << bit_pos);
+            bitmap.ptr[byte_index] |= ~(1 << bit_pos);
         }   
     }
     uintptr_t kernel_mem_start = (uintptr_t)&kernel_start;
-    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.bitmap_ptr + bitmap.bitmap_length);
+    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.ptr + bitmap.length);
     uintptr_t kernel_mem_size = kernel_mem_end - kernel_mem_start;
     size_t count = kernel_mem_size >> 12;
     for (size_t i = 0; i < count; i++){
@@ -69,7 +69,7 @@ void init_pmm(multiboot_info_t* info){
         size_t page_index = page_addr >> 12;
         size_t byte_index = page_index >> 3;
         size_t bit_pos = page_index & 7;
-        bitmap.bitmap_ptr[byte_index] |= 1<<bit_pos;
+        bitmap.ptr[byte_index] |= 1<<bit_pos;
     }
 }
 
