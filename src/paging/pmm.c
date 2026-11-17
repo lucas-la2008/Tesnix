@@ -29,9 +29,9 @@ void init_pmm(multiboot_info_t* info){
         }
     }
 
-    bitmap.length = (((total_ram + 32767) >> 15) + 4095) & ~4095;
+    bitmap.max_addr = (((total_ram + 32767) >> 15) + 4095) & ~4095;
 
-    for (size_t i= 0; i < bitmap.length; i++){
+    for (size_t i= 0; i < bitmap.max_addr; i++){
         bitmap.ptr[i] = 0xFFFFFFFF;
     }
 
@@ -62,7 +62,7 @@ void init_pmm(multiboot_info_t* info){
         }   
     }
     uintptr_t kernel_mem_start = (uintptr_t)&kernel_start;
-    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.ptr + bitmap.length);
+    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.ptr + bitmap.max_addr);
     uintptr_t kernel_mem_size = kernel_mem_end - kernel_mem_start;
     size_t count = kernel_mem_size >> 12;
     for (size_t i = 0; i < count; i++){
