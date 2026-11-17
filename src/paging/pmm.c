@@ -1,5 +1,6 @@
 #include "paging/pmm.h"
 #include "multiboot/multiboot.h"
+#include <lib/kstdbool.h>
 #include <lib/kstdint.h>
 #include <lib/kstddef.h>
 
@@ -74,4 +75,17 @@ void init_pmm(multiboot_info_t* info){
 }
 
 uintptr_t alloc_phys_addrs(){
+    bool found = false;
+    size_t page_group = 0;
+    while(!found){
+        if (bitmap.ptr[page_group] == 0xFF){
+            continue;
+        }
+        for (size_t j = 0; j < 8; j++){
+            if ((bitmap.ptr[page_group] >> j) & 1){
+                
+            }
+        }
+        page_group++;
+    }
 }
