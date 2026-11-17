@@ -6,8 +6,8 @@
 #include <lib/kstddef.h>
 
 typedef struct{
-    uint8_t* ptr;
-    size_t length;
+    uint32_t* ptr;
+    size_t max_addr;
 } bitmapPages;
 
 void init_pmm(multiboot_info_t* info);
