@@ -6,7 +6,7 @@
 #include <lib/kstddef.h>
 
 typedef struct{
-    uint8_t* ptr;
+    uint32_t* ptr;
     size_t length;
 } bitmapPages;
 
