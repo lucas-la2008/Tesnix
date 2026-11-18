@@ -75,17 +75,17 @@ void init_pmm(multiboot_info_t* info){
 }
 
 uintptr_t alloc_phys_addrs(){
-    bool found = false;
-    size_t page_group = 0;
-    while(!found){
-        if (bitmap.ptr[page_group] == 0xFF){
+    for(size_t page_group = 0; page_group < (bitmap.max_addr >> 17); page_group++){
+        if (bitmap.ptr[page_group] == 0xFFFFFFFF ){
             continue;
         }
         for (size_t j = 0; j < 32; j++){
-            if ((bitmap.ptr[page_group] >> j) & 1){
-                
+            if (((bitmap.ptr[page_group] >> j) & 1) == 0){
+                bitmap.ptr[page_group] |= 1<< j;
+                return ((page_group * 32 + j) * 4096);
             }
         }
         page_group++;
     }
+    return 0;
 }
