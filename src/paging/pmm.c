@@ -81,7 +81,7 @@ uintptr_t alloc_phys_addrs(){
         if (bitmap.ptr[page_group] == 0xFF){
             continue;
         }
-        for (size_t j = 0; j < 8; j++){
+        for (size_t j = 0; j < 32; j++){
             if ((bitmap.ptr[page_group] >> j) & 1){
                 
             }
