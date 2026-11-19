@@ -51,7 +51,6 @@ void init_pmm(multiboot_info_t* info){
         size_t count = (aligned_final_addr - aligned_addr) >> 12;
 
         /*
-        * Count is the amount of secure pages in this memory section
         * The bytes index in the bitmap is the page initial address divided by 4096*8(or 32768)
         * The bit in the found byte is found doing % 8 or & 7 in the byte index
         */
@@ -64,15 +63,15 @@ void init_pmm(multiboot_info_t* info){
         }   
     }
     uintptr_t kernel_mem_start = (uintptr_t)&kernel_start;
-    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.ptr + bitmap.max_addr);
+    uintptr_t kernel_mem_end = ((uintptr_t)bitmap.ptr + (bitmap.size*sizeof(uint32_t)));
     uintptr_t kernel_mem_size = kernel_mem_end - kernel_mem_start;
     size_t count = kernel_mem_size >> 12;
     for (size_t i = 0; i < count; i++){
         size_t page_addr = kernel_mem_start + (i*4096);
         size_t page_index = page_addr >> 12;
-        size_t byte_index = page_index >> 5;
+        size_t group_index = page_index >> 5;
         size_t bit_pos = page_index & 31;
-        bitmap.ptr[byte_index] |= 1<<bit_pos;
+        bitmap.ptr[group_index] |= 1U<<bit_pos;
     }
 }
 
