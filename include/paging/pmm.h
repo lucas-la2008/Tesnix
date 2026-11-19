@@ -7,7 +7,7 @@
 
 typedef struct{
     uint32_t* ptr;
-    size_t max_addr;
+    size_t size;
 } bitmapPages;
 
 void init_pmm(multiboot_info_t* info);

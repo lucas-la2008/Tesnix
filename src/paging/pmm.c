@@ -29,9 +29,9 @@ void init_pmm(multiboot_info_t* info){
         }
     }
 
-    bitmap.max_addr = (((total_ram + 32767) >> 15) + 4095) & ~4095LL;
+    bitmap.size = (((total_ram + 131072) >> 17) + 4095) & ~4095LLU;
 
-    for (size_t i= 0; i < bitmap.max_addr; i++){
+    for (size_t i= 0; i < bitmap.size; i++){
         bitmap.ptr[i] = 0xFFFFFFFF;
     }
 
@@ -75,7 +75,7 @@ void init_pmm(multiboot_info_t* info){
 }
 
 uintptr_t alloc_phys_addrs(){
-    for(size_t page_group = 0; page_group < (bitmap.max_addr >> 17); page_group++){
+    for(size_t page_group = 0; page_group < bitmap.size; page_group++){
         if (bitmap.ptr[page_group] == 0xFFFFFFFF ){
             continue;
         }
