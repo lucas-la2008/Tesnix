@@ -47,7 +47,9 @@ void init_pmm(multiboot_info_t* info){
         size_t aligned_addr = (addr + 4095) & ~4095;
         size_t aligned_final_addr = final_addr & ~4095;
         
+        // Count is the amount of secure pages in this memory section
         size_t count = (aligned_final_addr - aligned_addr) >> 12;
+
         /*
         * Count is the amount of secure pages in this memory section
         * The bytes index in the bitmap is the page initial address divided by 4096*8(or 32768)
@@ -56,7 +58,7 @@ void init_pmm(multiboot_info_t* info){
         for (size_t i= 0; i< count; i++){
             size_t actual_page = aligned_addr + (i*4096);
             size_t page_index = actual_page >> 12; // Same as dividing by 4096
-            size_t byte_index = page_index >> 5; // Same as dividing by 8
+            size_t byte_index = page_index >> 5; // Same as dividing by 32
             size_t bit_pos = page_index & 31; // Get the bit index by removing everything beyond bit 2
             bitmap.ptr[byte_index] |= ~(1 << bit_pos);
         }   
