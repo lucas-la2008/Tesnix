@@ -67,12 +67,29 @@ void init_pmm(multiboot_info_t* info){
     size_t page_count = (aligned_final_addr - aligned_addr) >> 12;
 
     /*
-    * • The byte index in the bitmap is the page initial address divided by 4096*32(or 131072)
-    * and verifying in which section it belongs to
-    * • The bit in the found byte is found doing % 32 or & 31 in the byte index
+    *   The byte index in the bitmap is the page initial address divided by 4096*32(or 131072)
+    * and verifying in which section it belongs to.
+    *   The bit in the found byte is found doing % 32 or & 31 in the byte index.
     */
+    bitmapSections sec;
+    size_t sec_index0; 
+    uintptr_t section_start;
+    uintptr_t section_end;
+    
     for (size_t i= 0; i< page_count; i++){
         size_t actual_page = aligned_addr + (i*4096);
+
+        sec = sections.ptr[find_section(actual_page)];
+        size_t sec_index = find_section(actual_page);
+        section_start = sec.phys_addr;
+        section_end = sec.phys_addr + (sec.num_blocks * sizeof(uint32_t));
+
+        if (actual_page < section_start || actual_page > section_end ){
+            sec = sections.ptr[find_section(actual_page)];
+            sec_index = find_section(actual_page);
+            section_start = sec.phys_addr;
+            section_end = sec.phys_addr + (sec.num_blocks * sizeof(uint32_t));
+        }
         size_t page_index = actual_page >> 12; // Same as dividing by 4096
         size_t byte_index = page_index >> 5; // Same as dividing by 32
         size_t bit_pos = page_index & 31; // Get the bit index by removing everything beyond bit 2
