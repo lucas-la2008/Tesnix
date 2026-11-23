@@ -6,7 +6,13 @@
 #include <lib/kstddef.h>
 
 typedef struct{
-    uint32_t* ptr;
+    uintptr_t phys_addr;
+    uint32_t* blocks;
+    size_t num_blocks;
+} bitmapSections;  
+
+typedef struct{
+    bitmapSections* ptr;
     size_t size;
 } bitmapPages;
 
