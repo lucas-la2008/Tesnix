@@ -14,6 +14,11 @@ typedef __INT64_TYPE__ int64_t;
 typedef __UINT64_TYPE__ uint64_t;
 
 typedef __INTPTR_TYPE__ intptr_t;
+#define INTPTR_MAX __INTPTR_MAX__
+
 typedef __UINTPTR_TYPE__ uintptr_t;
+#define UINTPTR_MAX __UINTPTR_MAX__
+
+#define SIZE_MAX __SIZE_MAX__
 
 #endif
