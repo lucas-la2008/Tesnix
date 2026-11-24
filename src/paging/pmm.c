@@ -60,8 +60,8 @@ void init_pmm(multiboot_info_t* info){
     uintptr_t addr = (uintptr_t)&kernel_start;
     uintptr_t final_addr = (uintptr_t)sections.ptr[sections.size - 1].blocks + (sections.ptr[sections.size-1].num_blocks * sizeof(uint32_t));
     
-    uintptr_t aligned_addr = (addr + 4095) & ~4095;
-    uintptr_t aligned_final_addr = final_addr & ~4095;
+    uintptr_t aligned_addr = addr & ~4095u;
+    uintptr_t aligned_final_addr = (final_addr + 4095u) & ~4095u;
     
     // page_count is the amount of secure pages in this memory section
     size_t page_count = (aligned_final_addr - aligned_addr) >> 12;
@@ -71,54 +71,39 @@ void init_pmm(multiboot_info_t* info){
     * and verifying in which section it belongs to.
     *   The bit in the found byte is found doing % 32 or & 31 in the byte index.
     */
-    bitmapSections sec;
-    size_t sec_index0; 
-    uintptr_t section_start;
-    uintptr_t section_end;
+    bitmapSections* sec = NULL;
+    uintptr_t section_start = 0;
+    uintptr_t section_end = 0;
     
     for (size_t i= 0; i< page_count; i++){
-        size_t actual_page = aligned_addr + (i*4096);
+        uintptr_t actual_page = aligned_addr + ((uintptr_t)i*4096u);
 
-        sec = sections.ptr[find_section(actual_page)];
-        size_t sec_index = find_section(actual_page);
-        section_start = sec.phys_addr;
-        section_end = sec.phys_addr + (sec.num_blocks * sizeof(uint32_t));
-
-        if (actual_page < section_start || actual_page > section_end ){
-            sec = sections.ptr[find_section(actual_page)];
-            sec_index = find_section(actual_page);
-            section_start = sec.phys_addr;
-            section_end = sec.phys_addr + (sec.num_blocks * sizeof(uint32_t));
+        if (actual_page < section_start || actual_page >= section_end || sec == NULL){
+            size_t section_idx = find_section(actual_page);
+            if (section_idx >= sections.size){            
+                sec = NULL;
+                section_start = 0;
+                section_end = 0;
+                continue;
+            }
+            
+            sec = &sections.ptr[section_idx];
+            section_start = sec->phys_addr;
+            section_end = sec->phys_addr + (sec->num_blocks << 17); // Same as multiplying by 4096*32
         }
-        size_t page_index = actual_page >> 12; // Same as dividing by 4096
-        size_t byte_index = page_index >> 5; // Same as dividing by 32
-        size_t bit_pos = page_index & 31; // Get the bit index by removing everything beyond bit 2
-        sections.ptr[byte_index] |= ~(1 << bit_pos);
+
+        size_t page_index = (actual_page - section_start) >> 12;
+        size_t word_index = page_index >> 5; // Same as dividing by 32
+        size_t bit_pos = page_index & 31u; // Get the bit index by removing everything beyond bit 4
+        sec->blocks[word_index] |= (1u << bit_pos);
     }   
-    
-    uintptr_t kernel_mem_start = (uintptr_t)&kernel_start;
-    uintptr_t kernel_mem_end = ((uintptr_t)sections.ptr + (sections.size*sizeof(uint32_t)));
-    uintptr_t kernel_mem_size = kernel_mem_end - kernel_mem_start;
-    count = kernel_mem_size >> 12;
-    for (size_t i = 0; i < count; i++){
-        size_t page_addr = kernel_mem_start + (i*4096);
-        size_t page_index = page_addr >> 12;
-        size_t group_index = page_index >> 5;
-        size_t bit_pos = page_index & 31;
-        sections.ptr[group_index] |= 1U<<bit_pos;
-    }
 }
 
 uintptr_t alloc_phys_addrs(){
-    for(size_t page_group = 0; page_group < sections.size; page_group++){
-        if (sections.ptr[page_group] == 0xFFFFFFFF ){
-            continue;
-        }
-        for (size_t j = 0; j < 32; j++){
-            if (((sections.ptr[page_group] >> j) & 1) == 0){
-                sections.ptr[page_group] |= 1<< j;
-                return ((page_group * 32 + j) * 4096);
-            }
+    for(size_t section = 0; section < sections.size; section++){
+        bitmapSections sec = sections.ptr[section];
+        for (size_t block = 0; block < sec.num_blocks; block++){
+            
         }
     }
     return 0;
