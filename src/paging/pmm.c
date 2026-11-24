@@ -129,7 +129,7 @@ uintptr_t alloc_phys_addrs(){
 
         if (actual_page < section_start || actual_page >= section_end || sec == NULL){
             size_t section_idx = find_section(actual_page);
-            if (section_idx >= sections.size){            
+            if (section_idx >= sections.size || section_idx == 0){            
                 sec = NULL;
                 section_start = 0;
                 section_end = 0;
@@ -152,9 +152,30 @@ uintptr_t alloc_phys_addrs(){
     for(size_t section = 0; section < sections.size; section++){
         bitmapSections sec = sections.ptr[section];
         for (size_t block = 0; block < sec.num_blocks; block++){
+<<<<<<< HEAD
             
 >>>>>>> aee23fd (feat(pmm): finish init_pmm function)
         }
     }
     return 0;
 }
+=======
+            size_t bit_index = __builtin_ctzl(~sec.blocks[block]);
+            sec.blocks[block] |= 1u << bit_index;
+            return + sec.phys_addr + (sec.blocks[block] << 17);
+        }
+    }
+    return 0;
+}
+
+size_t find_section(uintptr_t address){
+    for (size_t i = 0; i < sections.size; i++){
+        bitmapSections section = sections.ptr[i];
+        uintptr_t final_addr = section.phys_addr + (section.num_blocks * sizeof(uint32_t));
+        if (address > section.phys_addr && address < final_addr){
+            return i;
+        }
+    }
+    return 0;
+}
+>>>>>>> dcca85e (refactor(pmm): verify if the section_idx value is equal to 0)
