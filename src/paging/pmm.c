@@ -101,14 +101,17 @@ void init_pmm(multiboot_info_t* info){
 
 uintptr_t alloc_phys_addrs(){
     for(size_t section = 0; section < sections.size; section++){
-        bitmapSections sec = sections.ptr[section];
-        for (size_t block = 0; block < sec.num_blocks; block++){
-            if (sec.blocks[block] == 0xFFFFFFFF){
+        bitmapSections* sec = &sections.ptr[section];
+        for (size_t block = 0; block < sec->num_blocks; block++){
+            if (sec->blocks[block] == 0xFFFFFFFF){
                 continue;
             }
-            size_t bit_index = __builtin_ctzl(~sec.blocks[block]);
-            sec.blocks[block] |= 1u << bit_index;
-            return + sec.phys_addr + (sec.blocks[block] << 17);
+            size_t bit_index = __builtin_ctzl(~sec->blocks[block]);
+            if (bit_index == 0){
+                bit_index = __builtin_clzl(~sec->blocks[block]);
+            }
+            sec->blocks[block] |= 1u << bit_index;
+            return + sec->phys_addr + (sec->blocks[block] << 17);
         }
     }
     return 0;
