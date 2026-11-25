@@ -120,7 +120,7 @@ uintptr_t alloc_phys_addrs(){
 size_t find_section(uintptr_t address){
     for (size_t i = 0; i < sections.size; i++){
         bitmapSections section = sections.ptr[i];
-        uintptr_t final_addr = section.phys_addr + (section.num_blocks * sizeof(uint32_t));
+        uintptr_t final_addr = section.phys_addr + (section.num_blocks << 17);
         if (address > section.phys_addr && address < final_addr){
             return i;
         }
