@@ -19,17 +19,16 @@
     - [x] Merge it with the next free block
 ### Physical memory manager
   - Initialization
-    - [x] Bitmap creation
-    - [x] Set bits in the bitmap as 1
-    - [x] Free usable memory
+    - [x] Bitmap sections creation using only free memory
+    - [x] Set bits in all bitmaps as 0
     - [x] Protect the kernel in the bitmap
   - Allocation
-    - [ ] Search a free memory space
-    - [ ] Set it as occupied
-    - [ ] Return the page address
+    - [x] Search a free memory space
+    - [x] Set it as occupied
+    - [x] Return the page address
   - Deallocation
-    - [ ] Find the bit in the bitmap
-    - [ ] Set it as free
+    - [x] Find the bit in the bitmap
+    - [x] Set it as free
   ### Virtual memory manager
   - Allocation
     - [ ] Get the physical memory address from the [PMM](#physical-memory-manager)
