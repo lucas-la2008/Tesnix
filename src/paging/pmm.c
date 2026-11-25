@@ -117,6 +117,14 @@ uintptr_t alloc_phys_addrs(){
     return 0;
 }
 
+void dealloc_phys_addrs(uintptr_t address){
+    size_t section_index = find_section(address);
+    bitmapSections* sec = &sections.ptr[section_index];
+    size_t index = (address - sec->phys_addr) >> 17u;
+    size_t bit_index = ((address - sec->phys_addr) >> 12) & 31u;
+    sec->blocks[index] &= ~(1u << bit_index);
+}
+
 size_t find_section(uintptr_t address){
     for (size_t i = 0; i < sections.size; i++){
         bitmapSections section = sections.ptr[i];
